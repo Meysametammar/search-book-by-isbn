@@ -1,0 +1,17 @@
+{
+    "name": "geeksesi/book-by-isbn",
+    "description": "get book information by ISBN. powerd by nlai and book.ir",
+    "type": "library",
+    "require": {
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohammad Javad Ghasemy",
+            "email": "geeksesi@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.1"
+    }
+}
