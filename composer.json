@@ -2,8 +2,7 @@
     "name": "geeksesi/book-by-isbn",
     "description": "get book information by ISBN. powerd by nlai and book.ir",
     "type": "library",
-    "require": {
-    },
+    "require": {},
     "license": "MIT",
     "authors": [
         {
@@ -12,6 +11,11 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "^9.1"
+        "phpspec/phpspec": "^6"
+    },
+    "autoload": {
+        "psr-4": {
+            "BookByISBN\\": "src/"
+        }
     }
 }
