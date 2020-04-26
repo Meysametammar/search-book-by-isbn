@@ -12,8 +12,10 @@ class KetabirSpec extends ObjectBehavior
         $this->shouldHaveType(Ketabir::class);
     }
 
-    public function it_can_get_book_address_by_isbn()
+    public function it_can_get_book_picture_by_isbn()
     {
-        $this->get_book_address_by_isbn("9789643113445")->shouldBe("http://ketab.ir/bookview.aspx?bookid=2453934");
+        $this->get_book_picture_by_isbn("9789643113445")->shouldContain("http://164.138.18.205/DataBase/BookImages");
+        $this->get_book_picture_by_isbn("9789646235793")->shouldContain("http://164.138.18.205/DataBase/BookImages");
+        $this->get_book_picture_by_isbn("9786002571755")->shouldContain("http://164.138.18.205/DataBase/BookImages");
     }
 }
