@@ -2,7 +2,9 @@
     "name": "geeksesi/book-by-isbn",
     "description": "get book information by ISBN. powerd by nlai and book.ir",
     "type": "library",
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "^6.5"
+    },
     "license": "MIT",
     "authors": [
         {
