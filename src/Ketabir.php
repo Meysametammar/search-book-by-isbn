@@ -69,7 +69,6 @@ class Ketabir
         preg_match("/href=\"\/bookview.aspx\?bookid=(.*)\"><img id=\"(.*)\" src=\"(.*)\" height=\"100\"/", $_page_content, $DATAPERRESULT);
         if (!isset($DATAPERRESULT[3]))
             return false;
-        var_dump($DATAPERRESULT[3]);
         return $DATAPERRESULT[3];
     }
 }
