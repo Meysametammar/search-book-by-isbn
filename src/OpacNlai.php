@@ -53,6 +53,9 @@ class OpacNlai
 
     private function extract_everything_about_book($_page_address)
     {
+        if (!is_string($_page_address)) {
+            return false;
+        }
         $page_content = file_get_contents($_page_address);
         preg_match("/<TR>(.*)<\/TR>/s", $page_content, $ALLOFROWS);
         if (!isset($ALLOFROWS[0])) {
