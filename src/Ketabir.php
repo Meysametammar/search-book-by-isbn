@@ -12,10 +12,16 @@ class Ketabir
     {
         $content = file_get_contents("http://ketab.ir/Search.aspx", false);
         preg_match("/id=\"__VIEWSTATE\" value=\"(.*)\" \/>/", $content, $VIEWSTATE);
+        if (!isset($VIEWSTATE[1]))
+            return false;
         $view_state = $VIEWSTATE[1];
         preg_match("/id=\"__VIEWSTATEGENERATOR\" value=\"(.*)\" \/>/", $content, $VIEWSTATEGENERATOR);
+        if (!isset($VIEWSTATEGENERATOR[1]))
+            return false;
         $view_state_generator = $VIEWSTATEGENERATOR[1];
         preg_match("/id=\"__EVENTVALIDATION\" value=\"(.*)\" \/>/", $content, $EVENTVALIDATION);
+        if (!isset($EVENTVALIDATION[1]))
+            return false;
         $event_validation = $EVENTVALIDATION[1];
 
         $body = [
