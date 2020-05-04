@@ -10,7 +10,15 @@ class Ketabir
 
     private function make_my_dirty_header($_ISBN)
     {
-        $content = file_get_contents("http://ketab.ir/Search.aspx", false);
+        $search_page = new Client([
+            'base_uri' => 'http://ketab.ir/Search.aspx',
+        ]);
+        $response = $search_page->request('GET');
+        if ($response->getStatusCode() !== 200) {
+            return false;
+        }
+        $content = $response->getBody()->getContents();
+        // $content = file_get_contents("http://ketab.ir/Search.aspx", false);
         preg_match("/id=\"__VIEWSTATE\" value=\"(.*)\" \/>/", $content, $VIEWSTATE);
         if (!isset($VIEWSTATE[1]))
             return false;
