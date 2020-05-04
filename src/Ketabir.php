@@ -6,8 +6,36 @@ use GuzzleHttp\Client;
 
 class Ketabir
 {
+    /**
+     * @var undefined
+     */
+    public $book_picture;
+    /**
+     * @var undefined
+     */
+    public $book_address;
+    /**
+     * @var undefined
+     */
+    public $book_detail;
 
 
+    /**
+     * @param mixed $_ISBN
+     * 
+     * @return void
+     */
+    public function __construct($_ISBN)
+    {
+        $this->make_everything_ready($_ISBN);
+    }
+
+
+    /**
+     * @param mixed $_ISBN
+     * 
+     * @return void
+     */
     private function make_my_dirty_header($_ISBN)
     {
         $search_page = new Client([
@@ -54,7 +82,13 @@ class Ketabir
         return $body;
     }
 
-    public function get_book_picture_by_isbn($_ISBN)
+
+    /**
+     * @param mixed $_ISBN
+     * 
+     * @return void
+     */
+    private function make_everything_ready($_ISBN)
     {
         $body = $this->make_my_dirty_header($_ISBN);
         $http_content = http_build_query($body);
@@ -71,18 +105,58 @@ class Ketabir
                 ]
             ]
         );
-        if ($response->getStatusCode() === 200) {
-            $find_page_content = $response->getBody()->getContents();
-            return $this->give_me_picture($find_page_content);
+        if ($response->getStatusCode() !== 200) {
+            return false;
         }
-        return false;
+        $find_page_content = $response->getBody()->getContents();
+        $this->give_me_picture($find_page_content);
+        // $this->give_book_detail($this->book_address);
     }
 
+
+    /**
+     * @param mixed $_page_url
+     * 
+     * @return void
+     */
+    private function give_book_detail($_page_url)
+    {
+        $book_detail = [];
+        $client = new Client([
+            'cookies' => true,
+        ]);
+        $response = $client->get($_page_url, ['verify' => true,]);
+        if ($response->getStatusCode() !== 200) {
+            return false;
+        }
+        $content = $response->getBody()->getContents();
+        // var_dump($content);
+        preg_match("/<span id=\"(.*)\" class=\"h4\">(.*)<\/span>/", $content, $TITLE);
+        $book_detail["title"] = (isset($TITLE[2])) ? $TITLE[2] : null;
+
+        preg_match("/<span id=\"(.*)\" class=\"h4\">(.*)<\/span>/", $content, $TITLE);
+        $book_detail["title"] = (isset($TITLE[2])) ? $TITLE[2] : null;
+
+
+        $this->book_detail = $book_detail;
+        // var_dump($book_detail);
+    }
+
+
+    /**
+     * @param mixed $_page_content
+     * @param mixed $book_id
+     * 
+     * @return void
+     */
     private function give_me_picture($_page_content)
     {
         preg_match("/href=\"\/bookview.aspx\?bookid=(.*)\"><img id=\"(.*)\" src=\"(.*)\" height=\"100\"/", $_page_content, $DATAPERRESULT);
         if (!isset($DATAPERRESULT[3]))
             return false;
-        return $DATAPERRESULT[3];
+
+        $this->book_address = "http://ketab.ir/bookview.aspx?bookid=" . $DATAPERRESULT[1];
+        $this->book_picture = $DATAPERRESULT[3];
+        return true;
     }
 }
