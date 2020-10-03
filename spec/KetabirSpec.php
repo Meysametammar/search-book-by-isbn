@@ -7,7 +7,6 @@ use PhpSpec\ObjectBehavior;
 
 class KetabirSpec extends ObjectBehavior
 {
-
     public function it_can_get_book_picture_by_isbn()
     {
         $ketabir = new Ketabir("964-2793-03-2");
